@@ -6,7 +6,7 @@
   #  http://www.example.com/mypage/test1
   # then use
   # RewriteBase /mypage/test1/
-  RewriteBase /~carlos/ci_bookSearch
+  RewriteBase /~carlos/code_challenge/ci_bookSearch
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^(.*)$ index.php?/$1 [L]
   RewriteCond %{REQUEST_FILENAME} !-d
