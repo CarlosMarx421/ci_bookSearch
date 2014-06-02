@@ -1,0 +1,12 @@
+#searchInput {
+	width: 300px;
+	float: right;
+}
+
+#searchBar {
+	float: right;
+}
+
+.ajax-loader {
+	display: none;
+}
