@@ -13,7 +13,8 @@
 //
 // Output:
 //      The output consists of rows of books. Each row contains a
-//      maximum of 3 books. 
+//      maximum of 3 books. For now, the page lists 15 results
+//      per page.
 // ==============================================================
 $('#searchButton').click( function(event) {
 
@@ -64,7 +65,8 @@ $('#searchButton').click( function(event) {
                 if((i % 3) == 0) addNewRow();
 
                 // Check if a property is defined before accessing.
-                var price = ("listPrice" in item.saleInfo) 
+                var price = ("saleInfo" in item) && 
+                            ("listPrice" in item.saleInfo) 
                             ? "$" + item.saleInfo.listPrice.amount 
                             : "No price listed";
                 var publisher = ("publisher" in item.volumeInfo) 
@@ -149,7 +151,7 @@ function addNewRow() {
 function createBook(title, authors, publisher, pubDate, price, img) {
 
     var newBook = 
-        //<center>' +
+        '<center>' +
             '<img class="img-responsive img-thumbnail"' +
                  'src="' +  img + '">' +
             '<h3>' + title + '</h3>' + 
@@ -157,7 +159,7 @@ function createBook(title, authors, publisher, pubDate, price, img) {
             '<small><em>' + publisher + ", " + '</em></small>' + 
             '<small><em>' +  pubDate + '</em></small><br />' + 
             '<h4>' + price + '</h4>';
-       //  '</center>';
+        '</center>';
 
     return newBook;
 
@@ -187,16 +189,33 @@ function addSearchHeader(numResults, formInput) {
     var header = document.createElement('div');
         $(header).addClass("col-lg-12")
                  .html(
-                        '<h1 class="page-header">' + 
+                        '<h1 class="page-header">' +
                             numResults + 
                         ' Search results for ' +  
                         '"' + formInput + '"' +
                         '</h1>'
                     );
 
+    // TODO: Implement pagination.
+    // var prevNextRow = document.createElement('div');
+    //     $(prevNextRow).addClass("row");
+    // var ul = document.createElement('ul');
+    //     $(ul).addClass('pager');
+    // var prev = document.createElement('li');
+    //     $(prev).addClass('previous disabled')
+    //            .append('<a href="#">&larr; Previous 15</a>');
+    // var next = document.createElement('li');
+    //     $(next).addClass('next')
+    //            .append('<a href="#">Next 15 &rarr; </a>');
+
+    // $(ul).append(prev);
+    // $(ul).append(next);
+    // $(prevNextRow).append(ul);
+
     // Append elements.
     $(row).append(header);
     $('#booksContainer').append(row);
+    // $('#booksContainer').last().append(prevNextRow);
     return;
 
 } // end "addSearchHeader"

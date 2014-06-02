@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/~carlos/ci_bookSearch';
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------

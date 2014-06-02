@@ -19,9 +19,27 @@ class c_search extends CI_Controller {
 	public function index() {
 
 		$data['title'] = "Google Books";
+		// $data['default_view'] = getDefaultView();
 		$this->load->view("v_home", $data);
 
 	} // end "index"
+
+	// ==========================================================
+	// This function generates a default HTML template for the
+	// view when it is first loaded. This view will disappear
+	// when a search is invoked.
+	// 
+	// Input:
+	//		Nothing.
+	//
+	// Output:
+	//		A partial HTML view.
+	// ==========================================================
+	function getDefaultView() {
+		$defaultView = '';
+	}
+
+
 
 	// ==========================================================
 	// This function receives the user input and sends it
@@ -62,6 +80,8 @@ class c_search extends CI_Controller {
 			 	header('Content-type: application/json');
 				echo $results;
 				break;
+			// TODO: Provide handlers for these errors in
+			// the ajax call.
 			case 429:
 				header('Content-type: application/json');
 				echo json_encode(
@@ -72,7 +92,7 @@ class c_search extends CI_Controller {
 				echo json_encode(
 						array('status' => "Page not found.
 										This should not hapepen. 
-										Please submit a comment."));
+										Please email me."));
 				break;
 			default:
 				header('Content-type: application/json');

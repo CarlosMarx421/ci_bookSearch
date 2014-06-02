@@ -70,6 +70,15 @@
     <div class="container" id="booksContainer">
 
         <!-- Populate with rows of books -->
+        <div class="jumbotron">
+          <h1>Hello, world!</h1>
+          <p>This application allows users to query the Google Books API and displays
+             book results in a 3-column format. Due to rate limits, a max of 15 results are shown.
+             <br /> <br />
+             Go ahead, use the search field to begin searching!</p>
+          <small>This application was developed using the PHP Code Igniter framework and a
+             whole bunch of JavaScript.</small>
+        </div>
         
     </div>
     <!-- /.Books Results -->
@@ -80,7 +89,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Carlos Zaragoza 2014</p>
+                    <p>Copyright &copy; Carlos Zaragoza 2014 – Report bugs to CaZa@outlook.com</p>
                 </div>
             </div>
         </footer>
@@ -89,6 +98,8 @@
 
     <!-- JavaScript/AJAX that populates booksContainer -->
     <script src="js/populate.js"></script>
+
+    <!-- Handlers for sorting and page skips -->
     <script>
         $('#relevance').click(function() {
             $('#orderBy').html('Relevance');

@@ -8,32 +8,6 @@
 // ==============================================================
 class m_bookAPIModel extends CI_Model {
 
-    // ==========================================================
-    // This function performs an HTTP GET request to the Google
-    // Books API using the URI provided. The request has a single
-    // required parameter. Response objects are of type JSON
-    // called "Volumes". 
-    //
-    // Input:
-    //      $input      -- The search string provided by the user
-    //                     formatted as "phrase"+"phrase".
-    //
-    // Output:
-    //      $response   -- An object containing one or many
-    //                     volumes.
-    // ==========================================================
-    public function getAllBooks($input) {
-        // The Google Books URI.
-        $URI = "https://www.googleapis.com/books/v1/volumes?q=";
-
-        // Call the API and receive response.
-        $response = file_get_contents($URI.$input);
-
-        // Return the JSON response to the controller.
-        return $response;
-
-    } // end of "getAllBooks"
-
 
     // ==========================================================
     // This function performs an HTTP GET request to the Google
@@ -49,19 +23,26 @@ class m_bookAPIModel extends CI_Model {
     //                     parameter is to sort by relevance.
     //      &$status    -- Variable that will hold the status
     //                     code contained in the HTTP headers.
+    //      $startIndex -- The starting index at which to begin
+    //                     fetching volumes. Default is 0.
+    //      $maxResults -- The number of volumes to fetch.
+    //                     Default is set to 15.
     //
     // Output:
     //      $response   -- An object containing one or many
     //                     volumes.
     // ==========================================================
-    public function getBooks($input, $orderBy = "relevance", &$status) {
+    public function getBooks($input, $orderBy="relevance", 
+                             &$status, $startIndex=0, $maxResults=15) {
 
         // The Google Books URI.
         $URI = "https://www.googleapis.com/books/v1/volumes?q=";
 
         // Call the API and receive response.
-        $response = file_get_contents($URI . $input . '&orderBy=' 
-                                           .$orderBy);
+        $response = file_get_contents($URI .$input . '&orderBy=' 
+                                           .$orderBy . '&startIndex='
+                                           .$startIndex . '&maxResults='
+                                           .$maxResults);
 
         // Check response headers for status.
         // Code courtesy of: http://robert.arles.us/
