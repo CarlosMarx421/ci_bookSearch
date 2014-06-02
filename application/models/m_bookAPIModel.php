@@ -6,8 +6,8 @@
 // module. Functionalities include: order by asc/desc, order by
 // relevance/newest, or get all books with no options.
 // ==============================================================
-class m_bookAPIModel extends CI_Model 
-{
+class m_bookAPIModel extends CI_Model {
+
     // ==========================================================
     // This function performs an HTTP GET request to the Google
     // Books API using the URI provided. The request has a single
@@ -22,8 +22,7 @@ class m_bookAPIModel extends CI_Model
     //      $response   -- An object containing one or many
     //                     volumes.
     // ==========================================================
-    public function getAllBooks($input)
-    {
+    public function getAllBooks($input) {
         // The Google Books URI.
         $URI = "https://www.googleapis.com/books/v1/volumes?q=";
 
@@ -48,13 +47,15 @@ class m_bookAPIModel extends CI_Model
     //      $orderBy    -- The desired sort method (most relevant
     //                     or newest). The default value for this
     //                     parameter is to sort by relevance.
+    //      &$status    -- Variable that will hold the status
+    //                     code contained in the HTTP headers.
     //
     // Output:
     //      $response   -- An object containing one or many
     //                     volumes.
     // ==========================================================
-    public function getBooks($input, $orderBy = "relevance")
-    {
+    public function getBooks($input, $orderBy = "relevance", &$status) {
+
         // The Google Books URI.
         $URI = "https://www.googleapis.com/books/v1/volumes?q=";
 
@@ -62,8 +63,17 @@ class m_bookAPIModel extends CI_Model
         $response = file_get_contents($URI . $input . '&orderBy=' 
                                            .$orderBy);
 
+        // Check response headers for status.
+        // Code courtesy of: http://robert.arles.us/
+        list($version, $status_code, $msg) 
+                    = explode(' ',$http_response_header[0], 3);
 
-    }
-}
+        // Set the status code and return the volumes.
+        $status = $status_code;
+        return $response;
+
+    } // end "getBooks"
+
+} // end class "m_booksAPIModel"
 
 ?>

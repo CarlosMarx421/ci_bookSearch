@@ -2,6 +2,11 @@
 // When the form is submitted, this script performs an AJAX call
 // handled by the controller (c_search.php), which will use the
 // (m_bookAPIModel.php) to query the Google Books API.
+// 
+// The returned data consists of objects called "Volumes", 
+// which will be used to populate the rows with books.
+// 
+// More info on working with volmes: http://goo.gl/GCp5DW
 //
 // Input:
 //      userInput -- The search string entered by the user.
@@ -14,12 +19,19 @@ $('#searchButton').click( function(event) {
 
     // Fetch user input
     var userInput = document.getElementById('searchInput').value;
+    var sortType = $('#orderBy').html();
+
+    // Before making an AJAX call, validate the user input.
+    if(validateInput(userInput) == false) {
+        return;
+    }
 
     // Attempt to post the user input to the search controller.
     $.ajax({
         type: "POST",
         url: "c_search/search",
-        data: { foo : userInput },
+        data: { input  : userInput,
+                sortBy : sortType },
         dataType: "json",
         beforeSend: function() {
             $('.ajax-loader').show();
@@ -51,7 +63,7 @@ $('#searchButton').click( function(event) {
                 // If a row is already filled, create new row.
                 if((i % 3) == 0) addNewRow();
 
-                // Check if property is defined before accessing.
+                // Check if a property is defined before accessing.
                 var price = ("listPrice" in item.saleInfo) 
                             ? "$" + item.saleInfo.listPrice.amount 
                             : "No price listed";
@@ -85,10 +97,11 @@ $('#searchButton').click( function(event) {
             }// end for
         }, // end success
 
-        error: function() {
-                // On errors, display error message.
-                $('#searchInput').notify("Invalid input!", "error");
-            }
+
+
+        error: function(xhr, status, error) {
+                  alert(xhr + status + error);
+                }
 
     }) // end ajax
 
@@ -229,6 +242,13 @@ function getDefaultThumb() {
 
 // ==============================================================
 // This function displays an error message for a bogus input.
+//
+// Input:
+//      Nothing.
+// 
+// Output:
+//      Nothing.
+// ==============================================================
 function displayError() {
 
     $('#booksContainer').notify("Oh snap! You got an error! " + 
@@ -236,3 +256,24 @@ function displayError() {
                                 "error");
 
 } // end "displayError"
+
+
+// ==============================================================
+// This function validates the user input by checking bogus
+// inputs, such as no input or whitespace.
+//
+// Input:
+//      userInput       -- The search string.
+//
+// Output:
+//      If valid, return true. Else, false.
+// ==============================================================
+function validateInput(userInput) {
+
+    if(userInput.trim().length == 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}

@@ -43,19 +43,20 @@
 				<form class="navbar-form navbar-left" method="POST" id="searchForm">
                     <img src="images/ajax-loader.gif" class="ajax-loader" />
 					<div class="form-group">
-						<input type="text" id="searchInput" class="form-control" placeholder="Search">
+						<input type="text" id="searchInput" class="form-control" placeholder="Search" required>
 					</div>
 					<button type="submit" id="searchButton" class="btn btn-default">Submit</button>
-                    
+
+                    <span style="color: white; font-size:8pt">Sort by</span>
                     <div class="btn-group">
-                      <button type="button" class="btn btn-primary" id="orderBy">Sort By</button>
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                      <button type="button" class="btn btn-primary btn-xs" id="orderBy">Relevance</button>
+                      <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only"></span>
                       </button>
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Relevance</a></li>
-                        <li><a href="#">Newest</a></li>
+                        <li><a href="#" id="relevance">Relevance</a></li>
+                        <li><a href="#" id="newest">Newest</a></li>
                       </ul>
                     </div>
 				</form>
@@ -88,6 +89,15 @@
 
     <!-- JavaScript/AJAX that populates booksContainer -->
     <script src="js/populate.js"></script>
+    <script>
+        $('#relevance').click(function() {
+            $('#orderBy').html('Relevance');
+        });
+
+        $('#newest').click(function() {
+            $('#orderBy').html('Newest');
+        });
+    </script>
 
 </body>
 </html>
