@@ -18,41 +18,28 @@ class c_search extends CI_Controller {
 	// ==========================================================
 	public function index() {
 
-		$data['title'] = "Google Books";
-		// $data['default_view'] = getDefaultView();
+		$data['title'] = "Carlos's Google Book App";
 		$this->load->view("v_home", $data);
 
 	} // end "index"
-
-	// ==========================================================
-	// This function generates a default HTML template for the
-	// view when it is first loaded. This view will disappear
-	// when a search is invoked.
-	// 
-	// Input:
-	//		Nothing.
-	//
-	// Output:
-	//		A partial HTML view.
-	// ==========================================================
-	function getDefaultView() {
-		$defaultView = '';
-	}
 
 
 
 	// ==========================================================
 	// This function receives the user input and sends it
 	// to the model which will call the Google Books API
-	// and return the results.
+	// and return the results. All input data is formatted in
+	// this function, so it 
 	//
 	// Input:
 	//		$_POST['input']		-- The search string entered by
 	//							the user.
 	// 		$_POST['sortBy'] 	-- The sort method selected by
 	//							the user.
-	//		$status 			-- A reference variable that will
-	//							store the HTTP status code.
+	//		$_POST['_currPage'] -- The current page being loaded
+	//
+	//		$_POST['_numPer']	-- The number of books to get.
+	//
 	// Output:
 	//		$results 	-- The JSON object fetched from the model
 	//					if everything went smoothly.
@@ -60,8 +47,13 @@ class c_search extends CI_Controller {
 	public function search() {
 
 		// Fetch POST data.
-		$userInput = $this->input->post('input');
-		$sortType = $this->input->post('sortBy');
+		$userInput = $this->input->post('_input');
+		$sortType = $this->input->post('_sortBy');
+		$currPage = $this->input->post('_currPage');
+		$numPerPg = $this->input->post('_numPer');
+
+		// Calculate the start index based on the current page.
+		$startIndex = ($currPage * $numPerPg) - $numPerPg;
 
 		// Replace all whitespace characters with "+"
 		// The Google Books URI requires words to be separated
@@ -72,35 +64,11 @@ class c_search extends CI_Controller {
 		$this->load->model('m_bookAPIModel', 'googleAPI');
 		$results = $this->googleAPI->getBooks($str, 
 											  $sortType, 
-											  $status);
+											  $startIndex,
+											  $numPerPg);
 
-		// Check HTTP status code and handle errors.
-		switch($status) {
-			case 200:
-			 	header('Content-type: application/json');
-				echo $results;
-				break;
-			// TODO: Provide handlers for these errors in
-			// the ajax call.
-			case 429:
-				header('Content-type: application/json');
-				echo json_encode(
-						array('status' => "Rate limit exceeded."));
-				break;
-			case 404:
-				header('Content-type: application/json');
-				echo json_encode(
-						array('status' => "Page not found.
-										This should not hapepen. 
-										Please email me."));
-				break;
-			default:
-				header('Content-type: application/json');
-				echo json_encode(
-						array('status' => "Status code: "
-											. $status));
-				break;
-		} // end switch
+	 	header('Content-type: application/json');
+		echo $results;
 
 	} // end "search"
 

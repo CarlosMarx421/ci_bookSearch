@@ -21,8 +21,6 @@ class m_bookAPIModel extends CI_Model {
     //      $orderBy    -- The desired sort method (most relevant
     //                     or newest). The default value for this
     //                     parameter is to sort by relevance.
-    //      &$status    -- Variable that will hold the status
-    //                     code contained in the HTTP headers.
     //      $startIndex -- The starting index at which to begin
     //                     fetching volumes. Default is 0.
     //      $maxResults -- The number of volumes to fetch.
@@ -33,7 +31,7 @@ class m_bookAPIModel extends CI_Model {
     //                     volumes.
     // ==========================================================
     public function getBooks($input, $orderBy="relevance", 
-                             &$status, $startIndex=0, $maxResults=15) {
+                                $startIndex=0, $maxResults=15) {
 
         // The Google Books URI.
         $URI = "https://www.googleapis.com/books/v1/volumes?q=";
@@ -44,13 +42,7 @@ class m_bookAPIModel extends CI_Model {
                                            .$startIndex . '&maxResults='
                                            .$maxResults);
 
-        // Check response headers for status.
-        // Code courtesy of: http://robert.arles.us/
-        list($version, $status_code, $msg) 
-                    = explode(' ',$http_response_header[0], 3);
-
-        // Set the status code and return the volumes.
-        $status = $status_code;
+        // Return the volumes.
         return $response;
 
     } // end "getBooks"

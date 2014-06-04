@@ -9,15 +9,29 @@
 
 .ajax-loader {
 	display: none;
+	padding: 30px;
+}
+
+.footer {
+	text-align: center;
 }
 
 .divider-vertical {
-height: 50px;
-margin: 0 9px;
-border-left: 1px solid #F2F2F2;
-border-right: 1px solid #FFF;
+	height: 50px;
+	margin: 0 9px;
+	border-left: 1px solid #F2F2F2;
+	border-right: 1px solid #FFF;
 }
 
 .jumbotron {
 	margin-top: 50px;
+}
+
+#loading-button {
+	display: none;
+	width: 200px;
+}
+
+#back-to-top {
+	display: none;
 }

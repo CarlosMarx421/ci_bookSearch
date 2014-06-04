@@ -35,18 +35,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="c_search">Google Books API</a>
+                <a class="navbar-brand" href="index.php">Google Books API</a>
             </div>
 
             <!-- Search form -->
             <div class="collapse navbar-collapse navbar-ex1-collapse" style="float: right;">
 				<form class="navbar-form navbar-left" method="POST" id="searchForm">
-                    <img src="images/ajax-loader.gif" class="ajax-loader" />
 					<div class="form-group">
 						<input type="text" id="searchInput" class="form-control" placeholder="Search" required>
 					</div>
 					<button type="submit" id="searchButton" class="btn btn-default">Submit</button>
 
+                    <!-- Sort by -->
                     <span style="color: white; font-size:8pt">Sort by</span>
                     <div class="btn-group">
                       <button type="button" class="btn btn-primary btn-xs" id="orderBy">Relevance</button>
@@ -59,6 +59,21 @@
                         <li><a href="#" id="newest">Newest</a></li>
                       </ul>
                     </div>
+
+                    <!-- Output per page -->
+                    <span style="color: white; font-size:8pt">Results per page</span>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary btn-xs" id="numPerPage">9</button>
+                      <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" id="9per">9</a></li>
+                        <li><a href="#" id="15per">15</a></li>
+                        <li><a href="#" id="30per">30</a></li>
+                      </ul>
+                    </div>
 				</form>
             </div>
             <!-- /.navbar-collapse -->
@@ -68,12 +83,11 @@
 
     <!-- Book Search Results -->
     <div class="container" id="booksContainer">
-
         <!-- Populate with rows of books -->
         <div class="jumbotron">
           <h1>Hello, world!</h1>
           <p>This application allows users to query the Google Books API and displays
-             book results in a 3-column format. Due to rate limits, a max of 15 results are shown.
+             book results in a 3-column format.
              <br /> <br />
              Go ahead, use the search field to begin searching!</p>
           <small>This application was developed using the PHP Code Igniter framework and a
@@ -84,7 +98,16 @@
     <!-- /.Books Results -->
 
     <!-- Footer -->
-    <div class="container">
+    <div class="container footer">
+        <button type="button" id="loading-button" data-loading-text="Loading..." data-complete-text="No more results" class="btn btn-primary">
+            Load More
+        </button>
+        <button type="button" class="btn btn-default" id="back-to-top">
+            <span class="glyphicon glyphicon-arrow-up"></span> 
+            Back to top
+        </button>
+        <br />
+        <img src="images/page-loader.gif" alt="Loading..." class="ajax-loader" />
         <hr>
         <footer>
             <div class="row">
@@ -99,7 +122,7 @@
     <!-- JavaScript/AJAX that populates booksContainer -->
     <script src="js/populate.js"></script>
 
-    <!-- Handlers for sorting and page skips -->
+    <!-- Handlers for sorting type and number of books to display -->
     <script>
         $('#relevance').click(function() {
             $('#orderBy').html('Relevance');
@@ -107,6 +130,18 @@
 
         $('#newest').click(function() {
             $('#orderBy').html('Newest');
+        });
+
+        $('#9per').click(function() {
+            $('#numPerPage').html('9');
+        })
+
+        $('#15per').click(function () {
+            $('#numPerPage').html('15');
+        });
+
+        $('#30per').click(function() {
+            $('#numPerPage').html('30');
         });
     </script>
 
